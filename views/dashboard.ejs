@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel - veterinaria_vet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="bg-slate-50 font-sans flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex z-10">
+        <div>
+            <div class="p-6 text-white text-2xl font-bold border-b border-slate-800 flex items-center gap-2">
+                <span class="material-icons text-indigo-400">pets</span> veterinaria_vet
+            </div>
+            <nav class="p-4 space-y-1">
+                <a href="/dashboard?section=dashboard" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition <%= section === 'dashboard' ? 'bg-indigo-600 text-white' : '' %>">
+                    <span class="material-icons text-sm">dashboard</span> Dashboard
+                </a>
+                <% if(user.role === 'admin') { %>
+                <a href="/dashboard?section=veterinario" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition <%= section === 'veterinario' ? 'bg-indigo-600 text-white' : '' %>">
+                    <span class="material-icons">badge</span> Veterinarios
+                </a>
+                <% } %>
+                <a href="/dashboard?section=mascotas" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition <%= section === 'mascotas' ? 'bg-indigo-600 text-white' : '' %>">
+                    <span class="material-icons">cruelty_free</span> Mascotas
+                </a>
+                <a href="/dashboard?section=citas" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition <%= section === 'citas' ? 'bg-indigo-600 text-white' : '' %>">
+                    <span class="material-icons">calendar_month</span> Citas
+                </a>
+                <a href="/dashboard?section=recipes" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition <%= section === 'recipes' ? 'bg-indigo-600 text-white' : '' %>">
+                    <span class="material-icons">description</span> Médica / Recipes
+                </a>
+                <a href="/dashboard?section=reporte" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition <%= section === 'reporte' ? 'bg-indigo-600 text-white' : '' %>">
+                    <span class="material-icons">analytics</span> Reportes
+                </a>
+                <a href="/dashboard?section=setting" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 hover:text-white transition <%= section === 'setting' ? 'bg-indigo-600 text-white' : '' %>">
+                    <span class="material-icons">settings</span> Configuración
+                </a>
+            </nav>
+        </div>
+        <div class="p-4 border-t border-slate-800">
+            <div class="text-sm font-semibold text-white mb-1"><%= user.nombre %></div>
+            <div class="text-xs text-slate-400 mb-3 capitalize">Rol: <%= user.role %></div>
+            <a href="/logout" class="flex items-center gap-2 text-red-400 hover:text-red-300 text-sm py-1">
+                <span class="material-icons text-sm">logout</span> Cerrar Sesión
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-y-auto">
+        
+        <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+            <h2 class="text-xl font-bold text-slate-800 capitalize">Módulo: <%= section %></h2>
+            <div class="md:hidden">
+                <a href="/logout" class="text-sm bg-red-50 text-red-600 px-3 py-1.5 rounded-lg font-medium">Salir</a>
+            </div>
+        </header>
+
+        <div class="p-6 max-w-7xl w-full mx-auto">
+            
+            <% if (section === 'dashboard') { %>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex justify-between items-center">
+                        <div><p class="text-sm font-medium text-slate-500">Mascotas Registradas</p><h3 class="text-3xl font-bold text-slate-800 mt-1"><%= stats.pets %></h3></div>
+                        <span class="material-icons text-3xl text-indigo-500 bg-indigo-50 p-3 rounded-lg">cruelty_free</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex justify-between items-center">
+                        <div><p class="text-sm font-medium text-slate-500">Citas Agendadas</p><h3 class="text-3xl font-bold text-slate-800 mt-1"><%= stats.appointments %></h3></div>
+                        <span class="material-icons text-3xl text-emerald-500 bg-emerald-50 p-3 rounded-lg">calendar_month</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex justify-between items-center">
+                        <div><p class="text-sm font-medium text-slate-500">Personal Veterinario</p><h3 class="text-3xl font-bold text-slate-800 mt-1"><%= stats.vets %></h3></div>
+                        <span class="material-icons text-3xl text-amber-500 bg-amber-50 p-3 rounded-lg">badge</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex justify-between items-center">
+                        <div><p class="text-sm font-medium text-slate-500">Recipes Emitidos</p><h3 class="text-3xl font-bold text-slate-800 mt-1"><%= stats.recipes %></h3></div>
+                        <span class="material-icons text-3xl text-rose-500 bg-rose-50 p-3 rounded-lg">description</span>
+                    </div>
+                </div>
+            <% } %>
+
+            <% if (section === 'veterinario') { %>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-6 border-b border-slate-200"><h3 class="font-bold text-lg">Staff de Especialistas</h3></div>
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50">
+                            <tr><th class="p-4 font-semibold text-slate-600">Nombre</th><th class="p-4 font-semibold text-slate-600">Correo</th><th class="p-4 font-semibold text-slate-600">Cargo</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <% vets.forEach(vet => { %>
+                                <tr class="hover:bg-slate-50"><td class="p-4 text-slate-800 font-medium"><%= vet.nombre %></td><td class="p-4 text-slate-600"><%= vet.email %></td><td class="p-4 text-indigo-600 font-medium capitalize"><%= vet.role %> Médico</td></tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
+
+            <% if (section === 'mascotas') { %>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-fit">
+                        <h3 class="font-bold text-lg mb-4">Registrar Mascota</h3>
+                        <form action="/mascotas/add" method="POST" class="space-y-4">
+                            <div><label class="text-sm font-medium text-slate-700">Nombre de la Mascota</label><input type="text" name="nombre" required class="w-full mt-1 border p-2 rounded-lg"></div>
+                            <div><label class="text-sm font-medium text-slate-700">Especie</label><input type="text" name="especie" placeholder="Ej: Canino, Felino" required class="w-full mt-1 border p-2 rounded-lg"></div>
+                            <div><label class="text-sm font-medium text-slate-700">Raza</label><input type="text" name="raza" required class="w-full mt-1 border p-2 rounded-lg"></div>
+                            <div><label class="text-sm font-medium text-slate-700">Edad (Años)</label><input type="number" name="edad" required class="w-full mt-1 border p-2 rounded-lg"></div>
+                            <div><label class="text-sm font-medium text-slate-700">Dueño / Representante</label><input type="text" name="dueno" required class="w-full mt-1 border p-2 rounded-lg"></div>
+                            <button type="submit" class="w-full bg-indigo-600 text-white p-2.5 rounded-lg hover:bg-indigo-700 transition">Guardar Paciente</button>
+                        </form>
+                    </div>
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-50">
+                                <tr><th class="p-4 text-slate-600 font-semibold">Mascota</th><th class="p-4 text-slate-600 font-semibold">Especie/Raza</th><th class="p-4 text-slate-600 font-semibold">Edad</th><th class="p-4 text-slate-600 font-semibold">Representante</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <% mascotas.forEach(p => { %>
+                                    <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-slate-800"><%= p.nombre %></td><td class="p-4 text-slate-600"><%= p.especie %> (<%= p.raza %>)</td><td class="p-4 text-slate-600"><%= p.edad %> Años</td><td class="p-4 text-slate-700"><%= p.dueno %></td></tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <% } %>
+
+            <% if (section === 'citas') { %>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-fit">
+                        <h3 class="font-bold text-lg mb-4">Agendar Cita Médica</h3>
+                        <form action="/citas/add" method="POST" class="space-y-4">
+                            <div>
+                                <label class="text-sm font-medium text-slate-700">Paciente (Mascota)</label>
+                                <select name="mascota_id" class="w-full mt-1 border p-2 rounded-lg bg-white">
+                                    <% mascotas.forEach(m => { %><option value="<%= m.id %>"><%= m.nombre %> - <%= m.dueno %></option><% }) %>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium text-slate-700">Asignar Veterinario</label>
+                                <select name="veterinario_id" class="w-full mt-1 border p-2 rounded-lg bg-white">
+                                    <% vets.forEach(v => { %><option value="<%= v.id %>"><%= v.nombre %></option><% }) %>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div><label class="text-sm font-medium text-slate-700">Fecha</label><input type="date" name="fecha" required class="w-full mt-1 border p-2 rounded-lg"></div>
+                                <div><label class="text-sm font-medium text-slate-700">Hora</label><input type="time" name="hora" required class="w-full mt-1 border p-2 rounded-lg"></div>
+                            </div>
+                            <div><label class="text-sm font-medium text-slate-700">Motivo de Consulta</label><textarea name="motivo" required class="w-full mt-1 border p-2 rounded-lg h-20"></textarea></div>
+                            <button type="submit" class="w-full bg-emerald-600 text-white p-2.5 rounded-lg hover:bg-emerald-700 transition">Confirmar Cita</button>
+                        </form>
+                    </div>
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-50">
+                                <tr><th class="p-4 text-slate-600 font-semibold">Paciente</th><th class="p-4 text-slate-600 font-semibold">Especialista</th><th class="p-4 text-slate-600 font-semibold">Horario</th><th class="p-4 text-slate-600 font-semibold">Motivo</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <% citas.forEach(c => { %>
+                                    <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-slate-800"><%= c.mascota %></td><td class="p-4 text-slate-600"><%= c.veterinario %></td><td class="p-4 text-slate-700 font-medium"><%= c.fecha %> a las <%= c.hora %></td><td class="p-4 text-slate-500"><%= c.motivo %></td></tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <% } %>
+
+            <% if (section === 'recipes') { %>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-fit">
+                        <h3 class="font-bold text-lg mb-4">Emitir Recipe / Récipe</h3>
+                        <form action="/recetas/add" method="POST" class="space-y-4">
+                            <div>
+                                <label class="text-sm font-medium text-slate-700">Paciente</label>
+                                <select name="mascota_id" class="w-full mt-1 border p-2 rounded-lg bg-white">
+                                    <% mascotas.forEach(m => { %><option value="<%= m.id %>"><%= m.nombre %></option><% }) %>
+                                </select>
+                            </div>
+                            <div><label class="text-sm font-medium text-slate-700">Diagnóstico Clínico</label><textarea name="diagnostico" required class="w-full mt-1 border p-2 rounded-lg h-20"></textarea></div>
+                            <div><label class="text-sm font-medium text-slate-700">Tratamiento / Medicamentos</label><textarea name="medicamentos" placeholder="Ej: Amoxicilina 250mg cada 12h por 7 días" required class="w-full mt-1 border p-2 rounded-lg h-24"></textarea></div>
+                            <button type="submit" class="w-full bg-rose-600 text-white p-2.5 rounded-lg hover:bg-rose-700 transition">Emitir Orden</button>
+                        </form>
+                    </div>
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-50">
+                                <tr><th class="p-4 text-slate-600 font-semibold">Paciente</th><th class="p-4 text-slate-600 font-semibold">Médico</th><th class="p-4 text-slate-600 font-semibold">Diagnóstico</th><th class="p-4 text-slate-600 font-semibold">Tratamiento</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <% recetas.forEach(r => { %>
+                                    <tr class="hover:bg-slate-50"><td class="p-4 font-bold text-indigo-600"><%= r.mascota %></td><td class="p-4 text-slate-600"><%= r.veterinario %></td><td class="p-4 text-slate-800 font-medium"><%= r.diagnostico %></td><td class="p-4 text-slate-600 bg-slate-50 text-xs font-mono"><%= r.medicamentos %></td></tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <% } %>
+
+            <% if (section === 'reporte') { %>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="font-bold text-xl text-slate-800 mb-4">Reporte Consolidado de Gestión</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div class="border p-4 rounded-lg bg-slate-50">
+                            <h4 class="font-semibold text-sm text-slate-500 uppercase tracking-wider mb-2">Distribución Operativa</h4>
+                            <ul class="space-y-2 text-sm text-slate-700">
+                                <li class="flex justify-between"><span>Total de Mascotas Atendidas:</span><strong><%= stats.pets %></strong></li>
+                                <li class="flex justify-between"><span>Citas Procesadas:</span><strong><%= stats.appointments %></strong></li>
+                                <li class="flex justify-between"><span>Eficacia de Recetario:</span><strong><%= stats.recipes %> recetas</strong></li>
+                            </ul>
+                        </div>
+                        <div class="border p-4 rounded-lg bg-indigo-50/50 flex flex-col justify-center">
+                            <h4 class="font-bold text-indigo-900 text-lg">Estado Operacional</h4>
+                            <p class="text-sm text-indigo-700 mt-1">El sistema se encuentra sincronizado con la base de datos SQLite local. Toda la información mostrada refleja transacciones en tiempo real.</p>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+
+            <% if (section === 'setting') { %>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 max-w-2xl">
+                    <h3 class="font-bold text-lg mb-4">Configuración del Sistema</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 border-b">
+                            <div><p class="font-medium text-slate-800">Nombre de la Aplicación</p><p class="text-sm text-slate-500">veterinaria_vet</p></div>
+                            <span class="text-xs bg-slate-100 px-2 py-1 rounded text-slate-600">Fijo</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 border-b">
+                            <div><p class="font-medium text-slate-800">Motor de Base de Datos</p><p class="text-sm text-slate-500">SQLite 3 (Local Archivo)</p></div>
+                            <span class="text-xs bg-emerald-100 px-2 py-1 rounded text-emerald-700">Activo</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3">
+                            <div><p class="font-medium text-slate-800">Tu Perfil de Acceso</p><p class="text-sm text-slate-500"><%= user.email %></p></div>
+                            <span class="text-xs bg-indigo-100 px-2 py-1 rounded text-indigo-700 uppercase"><%= user.role %></span>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+
+        </div>
+    </main>
+</body>
+</html>

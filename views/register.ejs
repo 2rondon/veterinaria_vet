@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Veterinaria Vet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-indigo-600">Registro</h1>
+            <p class="text-slate-500 mt-1">Crea un nuevo usuario del sistema</p>
+        </div>
+        <% if(msg) { %>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"><%= msg %></div>
+        <% } %>
+        <form action="/register" method="POST" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-slate-700">Nombre Completo</label>
+                <input type="text" name="nombre" required class="mt-1 block w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-lg">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700">Correo Electrónico</label>
+                <input type="email" name="email" required class="mt-1 block w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-lg">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700">Contraseña</label>
+                <input type="password" name="password" required class="mt-1 block w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-lg">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700">Rol del Sistema</label>
+                <select name="role" class="mt-1 block w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-lg">
+                    <option value="veterinario">Veterinario</option>
+                    <option value="admin">Administrador</option>
+                </select>
+            </div>
+            <button type="submit" class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition duration-200">Registrar</button>
+        </form>
+        <p class="text-sm text-center text-slate-600 mt-4"><a href="/login" class="text-indigo-600 hover:underline">Volver al Login</a></p>
+    </div>
+</body>
+</html>
