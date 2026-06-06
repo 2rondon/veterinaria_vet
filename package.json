@@ -1,0 +1,26 @@
+{
+  "name": "veterinaria_vet",
+  "version": "1.0.0",
+  "description": "Sistema de Gestión Veterinaria",
+  "main": "server.js",
+  "bin": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "package": "pkg . --targets node18-win-x64 --out-path dist"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "pkg": "^5.8.1",
+    "sqlite3": "^5.1.7"
+  },
+  "pkg": {
+    "assets": [
+      "views/**/*",
+      "public/**/*"
+    ],
+    "scripts": []
+  }
+}
